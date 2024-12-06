@@ -26,7 +26,7 @@ class PongGame(Widget):
         self.p2.bounce_ball(self.ball)
         # bounce off top and bottom
         if (self.ball.y < 0) or (self.ball.top > self.height):
-            self.ball.vel_y *= -1
+            self.ball.velocity_y *= -1
 
         # went off to a side to score point?
         if self.ball.x < self.x:
@@ -48,12 +48,12 @@ class PongGame(Widget):
 class PongBall(Widget):
 
     # velocity of the ball on x and y axis
-    vel_x = NumericProperty(0)
-    vel_y = NumericProperty(0)
+    velocity_x = NumericProperty(0)
+    velocity_y = NumericProperty(0)
 
     # referencelist property from kivy.properties so we can use ball.velocity as a shorthand, 
     # just like e.g. w.pos for w.x and w.y
-    velocity = ReferenceListProperty(vel_x, vel_y)
+    velocity = ReferenceListProperty(velocity_x, velocity_y)
 
     # adding movement vector using Vector function (imported from kivy.vector)
     def move(self):
@@ -66,6 +66,7 @@ class PongPaddle(Widget):
         if self.collide_widget(ball):
             vx, vy = ball.velocity
             offset = (ball.center_y - self.center_y) / (self.height / 2)
+            
             bounced = Vector(-1 * vx, vy)
             vel = bounced * 1.1
             ball.velocity = vel.x, vel.y + offset
